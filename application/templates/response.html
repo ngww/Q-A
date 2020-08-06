@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+
+	{% for answer in answers %}
+		 <div>
+		 	<h3>{{ answer.qans.ask }}</h3>
+			<h4>{{ answer.ans }}</h4>
+			<span>answered by {{ answer.author.username }}</span>
+	    	</div>
+	{% endfor %}
+
+{% endblock %}>

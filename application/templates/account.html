@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+
+	<h2>These are the questions you have asked</h2>
+        {% for question in questions %}
+                 <div>
+                         <h3>{{ question.ask }}</h3>
+			 <span><a href='/update/{{ question.id }}'>Edit this question</a></span>
+                </div>
+        {% endfor %}
+
+{% endblock %}>

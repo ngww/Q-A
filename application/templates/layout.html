@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>{{ title }} - Page</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>{{  title  }} Page</h1>
+        </div>
+        
+	<div class="sidebar">
+            <a href="{{ url_for('home') }}">Home</a>
+	    {% if current_user.is_authenticated %}
+		<a href="{{ url_for('question') }}">Ask a Question</a>
+		<a href="/account/{{ current_user.id}}">Account</a>
+		<a href="{{ url_for('logout') }}">Logout</a>
+	    {% else %}
+	   	<a href="{{ url_for('register') }}">Register</a>
+    	        <a href="{{ url_for('login') }}">Login</a>
+	    {% endif %}
+        </div>
+        
+        <div class="content">
+            {% block body_content %}{% endblock %}
+        </div>
+    </body>
+</html>
