@@ -1,10 +1,12 @@
 {% extends 'layout.html' %}
 {% block body_content %}
 
+	<h2><a href="{{ url_for('response') }}">View all answers</a></h2>
 	{% for question in questions %}
 		 <div>
 			 <h3>{{ question.ask }}</h3>
-			 <span> asked by {{ question.creator.username }}</span>
+			 <span> asked by {{ question.creator.username }}</span></br>
+			 <span><a href="/answers/{{ question.id }}">Answer this question</a></span></br>
 	    	</div>
 	{% endfor %}
 

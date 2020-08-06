@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body_content %}
+
+    <h3>{{ question.ask }}</h3>
+    <div class='form'>
+        <form method='POST' action=''>
+            {{ form.hidden_tag() }}
+            <div class='form-group'> 
+                {{ form.ans.label }}            
+                {{ form.ans }}
+
+                {% if form.ans.errors %}
+                    <div class="error">
+                            {% for error in form.ans.errors %}
+                                    <span>{{ error }}</span>
+                            {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <br>
+                {{ form.submit }}
+        </form>
+    </div>
+
+{% endblock %}

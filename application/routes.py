@@ -1,9 +1,9 @@
 from flask import render_template, redirect, url_for, request
 from application import app, db, bcrypt
 
-from flask_login import login_user, current_user
-from application.forms import RegistrationForm, LoginForm
-from application.models import Questions, Users
+from flask_login import login_user, current_user, login_required
+from application.forms import RegistrationForm, LoginForm, QuestionForm, AnswerForm
+from application.models import Questions, Users, Answers
 
 @app.route('/')
 @app.route('/home')
@@ -46,5 +46,53 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('post'))
+        return redirect(url_for('question'))
     return render_template('register.html', title='Register', form=form)
+
+@app.route('/question', methods=['GET', 'POST'])
+@login_required
+def question():
+    form = QuestionForm()
+    if form.validate_on_submit():
+        questionData = Questions(
+            ask = form.ask.data,
+            creator = current_user
+        )
+
+        db.session.add(questionData)
+        db.session.commit()
+
+        return redirect(url_for('home'))
+
+    else:
+        print(form.errors)
+
+    return render_template('question.html', title='Questions', form=form)
+
+@app.route('/answers/<id>', methods=['GET', 'POST'])
+@login_required
+def answer(id):
+    form = AnswerForm()
+    question = Questions.query.filter_by(id=id).first()
+    if form.validate_on_submit():
+        answerData = Answers(
+            ans = form.ans.data,
+            author = current_user,
+            qans = question
+        )
+
+        db.session.add(answerData)
+        db.session.commit()
+
+        return redirect(url_for('home'))
+
+    else:
+        print(form.errors)
+
+    return render_template('answers.html', title='Answers', form=form, question=question)
+
+@app.route('/response')
+def response():
+    answerData = Answers.query.all()
+    return render_template('response.html', title='Answers', answers=answerData)
+
