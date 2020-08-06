@@ -21,7 +21,7 @@
                 {{ form.submit }}
         </form>
 	<br>
-	<form action="{{ url_for('question_delete') }}">
+	<form action="/delete/{{ question.id }}">
 		<button type="submit">Delete this question</button>
 	</form>
     </div>

@@ -118,14 +118,15 @@ def update(id):
         return redirect(url_for('home'))
     elif request.method == 'GET':
         form.ask.data = question.ask
-    return render_template('update.html', title='Update', form=form)
+    return render_template('update.html', title='Update', form=form, question=question)
 
 @app.route("/delete/<id>", methods=['GET', 'POST'])
 @login_required
 def question_delete(id):
     question = Questions.query.filter_by(id=id).first()
-    answers = Answers.query.filter_by(ask_id=id)
+    answers = Answers.query.filter_by(ask_id=id).all()
     for answer in answers:
         db.session.delete(answer)
     db.session.delete(question)
-    return redirect(url_for('account'))
+    db.session.commit()
+    return redirect(url_for('home'))
