@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block body_content %}
+
+	{% for question in questions %}
+		 <div>
+			 <h3>{{ question.ask }}</h3>
+			 <span> asked by {{ question.creator.username }}</span>
+	    	</div>
+	{% endfor %}
+
+{% endblock %}>
