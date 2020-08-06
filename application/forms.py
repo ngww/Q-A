@@ -77,3 +77,11 @@ class AnswerForm(FlaskForm):
     )
     submit = SubmitField('Answer Question')
 
+class UpdateQuestionForm(FlaskForm):
+    ask = StringField('Question',
+        validators = [
+            DataRequired(),
+            Length(min=4, max=100)
+        ]
+    )
+    submit = SubmitField('Update Question')

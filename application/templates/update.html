@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body_content %}
+
+<!-- The 'form-group' class means that the item in the form will be grouped when displayed -->
+    <div class='form'>
+        <form method='POST' action=''>
+            {{ form.hidden_tag() }}
+            <div class='form-group'>
+                {{ form.ask.label }}
+                {{ form.ask }}
+
+                {% if form.ask.errors %}
+                    <div class="error">
+                            {% for error in form.ask.errors %}
+                                    <span>{{ error }}</span>
+                            {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <br>
+                {{ form.submit }}
+        </form>
+	<br>
+	<form action="{{ url_for('question_delete') }}">
+		<button type="submit">Delete this question</button>
+	</form>
+    </div>
+
+{% endblock %}

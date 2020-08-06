@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, request
 from application import app, db, bcrypt
 
-from flask_login import login_user, current_user, login_required
-from application.forms import RegistrationForm, LoginForm, QuestionForm, AnswerForm
+from flask_login import login_user, current_user, login_required, logout_user
+from application.forms import RegistrationForm, LoginForm, QuestionForm, AnswerForm, UpdateQuestionForm
 from application.models import Questions, Users, Answers
 
 @app.route('/')
@@ -96,3 +96,36 @@ def response():
     answerData = Answers.query.all()
     return render_template('response.html', title='Answers', answers=answerData)
 
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.route('/account/<id>')
+@login_required
+def account(id):
+    questions = Questions.query.filter_by(user_id=id).all()
+    return render_template('account.html', title='Account', questions=questions)
+
+@app.route("/update/<id>", methods=['GET', 'POST'])
+@login_required
+def update(id):
+    form = UpdateQuestionForm()
+    question = Questions.query.filter_by(id=id).first()
+    if form.validate_on_submit():
+        question.ask = form.ask.data
+        db.session.commit()
+        return redirect(url_for('home'))
+    elif request.method == 'GET':
+        form.ask.data = question.ask
+    return render_template('update.html', title='Update', form=form)
+
+@app.route("/delete/<id>", methods=['GET', 'POST'])
+@login_required
+def question_delete(id):
+    question = Questions.query.filter_by(id=id).first()
+    answers = Answers.query.filter_by(ask_id=id)
+    for answer in answers:
+        db.session.delete(answer)
+    db.session.delete(question)
+    return redirect(url_for('account'))
