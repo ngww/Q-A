@@ -30,3 +30,12 @@ Integration Testing: Selenium \
 CI Server: Jenkins
 
 ## Project Tracking
+This was my Jira board at the beginning
+![jiraboard1](https://user-images.githubusercontent.com/66832040/89565241-33e8db00-d816-11ea-8345-0f4d3cae9fdc.png)
+
+This is my Jira board now that I have finished creating the CRUD application
+![jiraboard2](https://user-images.githubusercontent.com/66832040/89565597-b07bb980-d816-11ea-8513-23f439c4f4b4.png)
+
+## ERD
+![ERD](https://user-images.githubusercontent.com/66832040/89564451-f0da3800-d814-11ea-8e01-68862dac9a07.png)
+
