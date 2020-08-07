@@ -115,8 +115,11 @@ class TestPosts(TestBase):
                 ),
                 follow_redirects=True
             )
+            answer = self.client.get(url_for('response'))
             # checks is user is redirected to home page
             self.assertIn(b'Home', response.data)
+            self.assertIn(b'purple', answer.data)
+            
 
     def test_update_question(self):
         with self.client:
