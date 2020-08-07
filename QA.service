@@ -1,0 +1,13 @@
+[Unit]
+Description=Question and Answers Application
+
+[Service]
+User=service-user
+WorkingDirectory=/opt/Q-A
+EnvironmentFile=/opt/Q-A/flask.env
+ExecStart=/bin/sh \
+	-c 'cd /opt/Q-A && \
+	. ./venv/bin/activate && \
+	gunicorn --workers=4 --bind=0.0.0.0:5000 app:app'
+[Install]
+WantedBy=multi-user.target
