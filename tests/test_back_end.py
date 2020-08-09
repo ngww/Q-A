@@ -83,10 +83,23 @@ class TestViews(TestBase):
         response = self.client.get('/account/1')
         self.assertIn(b'Account', response.data)
 
-    def test_respose_view(self):
+    def test_response_view(self):
         self.client.post(url_for('login'), data=dict(username="admin", password="password1"), follow_redirects=True)
         response = self.client.get(url_for('response'))
         self.assertIn(b'Blue', response.data)
+
+    def test_login_view(self):
+        response = self.client.get(url_for('login'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_register_view(self):
+        response = self.client.get(url_for('register'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_veiw(self):
+        self.client.post(url_for('login'), data=dict(username="admin", password="password1"), follow_redirects=True)
+        response = self.client.get('/update/1')
+        self.assertIn(b'Update', response.data)
 
 class TestPosts(TestBase):
 
@@ -133,6 +146,15 @@ class TestPosts(TestBase):
             )
             self.assertNotIn(b'what clolour is the sky', response.data)
             self.assertIn(b'What colour is the sky?', response.data)
+
+    def test_delete_question(self):
+        with self.client:
+            self.client.post(url_for('login'), data=dict(username="admin", password="password1"), follow_redirects=True)
+            response = self.client.post(
+                '/delete/1',
+                follow_redirects=True
+            )
+            self.assertNotIn(b'what clolour is the sky', response.data)
 
 class TestLogin(TestBase):
 
